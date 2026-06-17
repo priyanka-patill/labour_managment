@@ -193,8 +193,10 @@ async function sendSms(to: string, message: string): Promise<boolean> {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const fromNum = process.env.TWILIO_FROM_NUMBER;
+  const fast2smsKey = process.env.FAST2SMS_API_KEY;
   const formattedTo = normalizePhoneNumber(to);
 
+  // 1. Try Twilio
   if (accountSid && authToken && fromNum) {
     try {
       const twilio = require('twilio');
@@ -211,7 +213,38 @@ async function sendSms(to: string, message: string): Promise<boolean> {
     }
   }
 
-  // Fallback to Textbelt for actual sending when Twilio is not configured or fails
+  // 2. Try Fast2SMS (highly recommended and reliable for India developer testing)
+  if (fast2smsKey) {
+    console.log(`[SMS FAST2SMS] Attempting to send SMS via Fast2SMS to ${formattedTo}...`);
+    try {
+      const rawNumber = formattedTo.replace(/\D/g, ''); // plain digits, e.g. 919922795207
+      const response = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          'authorization': fast2smsKey,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          route: 'q',
+          message: message,
+          language: 'english',
+          flash: 0,
+          numbers: rawNumber
+        })
+      });
+      const data: any = await response.json();
+      if (data && data.return) {
+        console.log(`[SMS FAST2SMS] Successfully sent message to ${rawNumber}. Message ID: ${data.message}`);
+        return true;
+      } else {
+        console.error('[SMS FAST2SMS ERROR] Failed to send SMS:', data);
+      }
+    } catch (error) {
+      console.error('[SMS FAST2SMS ERROR] Error calling Fast2SMS API:', error);
+    }
+  }
+
+  // 3. Fallback to Textbelt for actual sending when Twilio/Fast2SMS are not configured or fail
   console.log(`[SMS FALLBACK] Attempting to send SMS via Textbelt to ${formattedTo}...`);
   try {
     const response = await fetch('https://textbelt.com/text', {
@@ -234,7 +267,7 @@ async function sendSms(to: string, message: string): Promise<boolean> {
     console.error('[SMS TEXTBELT ERROR] Error calling Textbelt API:', error);
   }
 
-  console.log(`[SMS MOCK] Twilio and Textbelt failed/not configured. Message to ${formattedTo}: ${message}`);
+  console.log(`[SMS MOCK] Twilio, Fast2SMS and Textbelt failed/not configured. Message to ${formattedTo}: ${message}`);
   return false;
 }
 

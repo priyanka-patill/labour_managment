@@ -534,12 +534,6 @@ function AuthForm() {
               </p>
 
               <div className="space-y-4">
-                {devOtp && (
-                  <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-600 font-semibold text-center leading-normal">
-                    🔧 Verification SMS Code: <span className="text-sm font-mono underline select-all font-bold">{devOtp}</span>
-                  </div>
-                )}
-
                 <input
                   type="text"
                   maxLength={4}
