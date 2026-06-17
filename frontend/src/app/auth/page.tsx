@@ -226,7 +226,7 @@ function AuthForm() {
       <div className="absolute top-4 left-4 flex gap-4 items-center">
         <button 
           onClick={() => router.push('/')}
-          className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 cursor-pointer"
+          className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/40 cursor-pointer"
         >
           <ArrowLeft size={12} /> Back
         </button>
@@ -249,13 +249,13 @@ function AuthForm() {
         <div className="grid grid-cols-2 p-1 bg-zinc-950/40 rounded-xl mb-6 border border-zinc-800/40">
           <button
             onClick={() => { setMode('login'); setError(''); }}
-            className={`py-2 text-xs font-semibold rounded-lg transition duration-200 cursor-pointer ${mode === 'login' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-400 hover:text-white'}`}
+            className={`py-2 text-xs font-semibold rounded-lg transition duration-200 cursor-pointer ${mode === 'login' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-400 hover:text-zinc-50'}`}
           >
             {t('login')}
           </button>
           <button
             onClick={() => { setMode('register'); setError(''); }}
-            className={`py-2 text-xs font-semibold rounded-lg transition duration-200 cursor-pointer ${mode === 'register' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-400 hover:text-white'}`}
+            className={`py-2 text-xs font-semibold rounded-lg transition duration-200 cursor-pointer ${mode === 'register' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-400 hover:text-zinc-50'}`}
           >
             {t('register')}
           </button>
@@ -286,7 +286,7 @@ function AuthForm() {
                     key={r}
                     type="button"
                     onClick={() => setRole(r)}
-                    className={`py-2 px-1 rounded-lg border text-[10px] font-bold transition cursor-pointer capitalize ${role === r ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-zinc-800 text-zinc-500 bg-zinc-900/20 hover:text-zinc-300'}`}
+                    className={`py-2 px-1 rounded-lg border text-[10px] font-bold transition cursor-pointer capitalize ${role === r ? 'border-indigo-500 bg-indigo-500/10 text-indigo-600' : 'border-zinc-800 text-zinc-500 bg-zinc-900/20 hover:text-zinc-300'}`}
                   >
                     {r === 'employer' ? 'Employer' : r === 'labour' ? 'Labourer' : 'Citizen User'}
                   </button>
@@ -304,7 +304,7 @@ function AuthForm() {
                 placeholder="e.g. Ramesh Kumar"
                 value={name}
                 onChange={e => setName(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
           )}
@@ -316,7 +316,7 @@ function AuthForm() {
               placeholder="name@example.com"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
@@ -328,7 +328,7 @@ function AuthForm() {
                 placeholder="e.g. 9876543210"
                 value={mobileNumber}
                 onChange={e => setMobileNumber(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
           )}
@@ -340,7 +340,7 @@ function AuthForm() {
               placeholder="••••••••"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
@@ -352,7 +352,7 @@ function AuthForm() {
                 placeholder="e.g. Kurla East, Mumbai"
                 value={address}
                 onChange={e => setAddress(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
           )}
@@ -367,7 +367,7 @@ function AuthForm() {
                   placeholder="e.g. Kulkarni Projects Ltd"
                   value={companyName}
                   onChange={e => setCompanyName(e.target.value)}
-                  className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
               <div className="space-y-1">
@@ -377,7 +377,7 @@ function AuthForm() {
                   value={businessDetails}
                   onChange={e => setBusinessDetails(e.target.value)}
                   rows={2}
-                  className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
             </motion.div>
@@ -394,7 +394,7 @@ function AuthForm() {
                       key={s}
                       type="button"
                       onClick={() => handleSkillToggle(s)}
-                      className={`py-1.5 px-2.5 text-[10px] font-semibold rounded-md border text-left cursor-pointer transition ${skills.includes(s) ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400' : 'border-zinc-800/80 text-zinc-400 hover:text-zinc-300'}`}
+                      className={`py-1.5 px-2.5 text-[10px] font-semibold rounded-md border text-left cursor-pointer transition ${skills.includes(s) ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700' : 'border-zinc-800/80 text-zinc-400 hover:text-zinc-50'}`}
                     >
                       {t(s as any)}
                     </button>
@@ -409,7 +409,7 @@ function AuthForm() {
                     type="number"
                     value={expectedWage}
                     onChange={e => setExpectedWage(Number(e.target.value))}
-                    className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -418,7 +418,7 @@ function AuthForm() {
                     type="number"
                     value={experience}
                     onChange={e => setExperience(Number(e.target.value))}
-                    className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
               </div>
@@ -431,7 +431,7 @@ function AuthForm() {
                       key={lang}
                       type="button"
                       onClick={() => handleLanguageToggle(lang)}
-                      className={`py-1.5 px-3 text-[10px] font-bold rounded-lg border cursor-pointer transition ${languagesList.includes(lang) ? 'border-purple-500 bg-purple-500/10 text-white' : 'border-zinc-800 text-zinc-400'}`}
+                      className={`py-1.5 px-3 text-[10px] font-bold rounded-lg border cursor-pointer transition ${languagesList.includes(lang) ? 'border-purple-500 bg-purple-500/10 text-purple-700' : 'border-zinc-800 text-zinc-400'}`}
                     >
                       {lang}
                     </button>
@@ -464,7 +464,7 @@ function AuthForm() {
         {/* Google sign-in mock button */}
         <button
           onClick={handleGoogleLoginMock}
-          className="w-full py-2.5 px-4 rounded-lg border border-zinc-800 text-zinc-300 hover:text-white bg-zinc-900/20 hover:border-zinc-700 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer transition"
+          className="w-full py-2.5 px-4 rounded-lg border border-zinc-800 text-zinc-300 hover:text-zinc-50 bg-zinc-900/20 hover:border-zinc-700 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer transition"
         >
           <Sparkles size={14} className="text-indigo-400 animate-pulse" />
           <span>Quick Google Login (Simulated)</span>
@@ -482,9 +482,9 @@ function AuthForm() {
               className="w-full max-w-sm glass-panel p-6 rounded-2xl border border-zinc-800 text-center"
             >
               <Shield className="text-indigo-400 mx-auto mb-4" size={36} />
-              <h3 className="text-lg font-bold text-white mb-2">Verification Code Required</h3>
+              <h3 className="text-lg font-bold text-zinc-50 mb-2">Verification Code Required</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mb-6">
-                We sent a 4-digit verification code to <strong className="text-zinc-200">{mobileNumber}</strong>.
+                We sent a 4-digit verification code to <strong className="text-zinc-50">{mobileNumber}</strong>.
               </p>
 
               <div className="space-y-4">
@@ -494,7 +494,7 @@ function AuthForm() {
                   placeholder="Enter 4-Digit Code (e.g. 1234)"
                   value={otpCode}
                   onChange={e => setOtpCode(e.target.value)}
-                  className="w-full text-center bg-zinc-950/60 border border-zinc-800 rounded-lg py-3 text-lg font-mono text-white placeholder-zinc-700 tracking-[10px] focus:outline-none focus:border-indigo-500"
+                  className="w-full text-center bg-zinc-950/60 border border-zinc-800 rounded-lg py-3 text-lg font-mono text-zinc-50 placeholder-zinc-700 tracking-[10px] focus:outline-none focus:border-indigo-500"
                 />
 
                 <div className="flex justify-between items-center text-[10px]">
