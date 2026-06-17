@@ -88,7 +88,7 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
                 S
               </div>
-              <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="font-extrabold text-xl tracking-tight text-indigo-600">
                 SHRAMIK
               </span>
             </div>
@@ -195,7 +195,7 @@ export default function LandingPage() {
             </span>
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
               {t('heroTitle')}{' '}
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+              <span className="text-indigo-600">
                 Without Middlemen
               </span>
             </h1>
@@ -400,7 +400,7 @@ export default function LandingPage() {
       <footer className="border-t border-zinc-800 py-12 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>
-            <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="font-extrabold text-lg tracking-tight text-indigo-600">
               SHRAMIK
             </span>
             <p className="text-xs text-zinc-500 mt-1">&copy; {new Date().getFullYear()} Shramik Tech. All rights reserved.</p>

@@ -96,7 +96,7 @@ export function DashboardSidebar({ activeSection, setActiveSection, notification
           <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
             S
           </div>
-          <span className="font-extrabold tracking-wider bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <span className="font-extrabold tracking-wider text-indigo-600">
             SHRAMIK
           </span>
         </div>
@@ -201,7 +201,7 @@ export function DashboardSidebar({ activeSection, setActiveSection, notification
           <div className="w-7 h-7 rounded-md bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
             S
           </div>
-          <span className="font-extrabold text-sm tracking-wider bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <span className="font-extrabold text-sm tracking-wider text-indigo-600">
             SHRAMIK
           </span>
         </div>
