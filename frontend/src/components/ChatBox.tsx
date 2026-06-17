@@ -62,7 +62,7 @@ export function ChatBox() {
   const fetchChatList = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/chats', {
+      const res = await fetch('http://localhost:5005/api/chats', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -78,7 +78,7 @@ export function ChatBox() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/chats/${chatId}/messages`, {
+      const res = await fetch(`http://localhost:5005/api/chats/${chatId}/messages`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -143,7 +143,7 @@ export function ChatBox() {
 
     try {
       // Send to backend
-      const res = await fetch('http://localhost:5000/api/chats/message', {
+      const res = await fetch('http://localhost:5005/api/chats/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

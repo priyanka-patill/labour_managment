@@ -31,14 +31,14 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       // 1. Fetch stats
-      const statsRes = await fetch('http://localhost:5000/api/admin/stats', {
+      const statsRes = await fetch('http://localhost:5005/api/admin/stats', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const statsData = await statsRes.json();
       if (!statsData.error) setStats(statsData);
 
       // 2. Fetch complaints
-      const compRes = await fetch('http://localhost:5000/api/admin/complaints', {
+      const compRes = await fetch('http://localhost:5005/api/admin/complaints', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const compData = await compRes.json();
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 
       // 3. Fetch all users
       // In a real app we would have an admin user query endpoint. Since getWorkers gives labourers, we can query it and mock get all users
-      const workersRes = await fetch('http://localhost:5000/api/users/workers?search=');
+      const workersRes = await fetch('http://localhost:5005/api/users/workers?search=');
       const workers = await workersRes.json();
       
       // Let's mock a combination of workers and test contractors
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
   const handleToggleVerify = async (userId: string) => {
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${userId}/verify`, {
+      const res = await fetch(`http://localhost:5005/api/admin/users/${userId}/verify`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
     if (!token) return;
     if (!confirm('Are you sure you want to ban and delete this user?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+      const res = await fetch(`http://localhost:5005/api/admin/users/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -120,7 +120,7 @@ export default function AdminDashboard() {
   const handleResolveComplaint = async (id: string) => {
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/complaints/${id}/resolve`, {
+      const res = await fetch(`http://localhost:5005/api/admin/complaints/${id}/resolve`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -1,5 +1,5 @@
 import { Router, Response, Request } from 'express';
-import { register, login, getMe, updateProfile, getWorkers, verifyOtp, resendOtp } from '../controllers/auth.controller';
+import { register, login, getMe, updateProfile, getWorkers, verifyOtp, resendOtp, sendOtp } from '../controllers/auth.controller';
 import { createJob, getJobs, getJobDetails, applyJob, getJobApplications, updateApplicationStatus, getMatchedLabourers, getRecommendedJobs } from '../controllers/jobs.controller';
 import { getChats, startChat, getMessages, sendMessage } from '../controllers/chat.controller';
 import { getWallet, processCheckout, downloadInvoice } from '../controllers/payments.controller';
@@ -13,6 +13,7 @@ const router = Router();
 // --- AUTHENTICATION ROUTES ---
 router.post('/auth/register', register);
 router.post('/auth/login', login);
+router.post('/auth/send-otp', sendOtp);
 router.post('/auth/verify-otp', verifyOtp);
 router.post('/auth/resend-otp', resendOtp);
 router.get('/auth/me', authMiddleware as any, getMe as any);

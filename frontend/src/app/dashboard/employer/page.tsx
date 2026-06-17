@@ -68,7 +68,7 @@ export default function EmployerDashboard() {
   const fetchJobs = async () => {
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs?employerId=${user?._id}`, {
+      const res = await fetch(`http://localhost:5005/api/jobs?employerId=${user?._id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -83,7 +83,7 @@ export default function EmployerDashboard() {
   const fetchWallet = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/payments/wallet', {
+      const res = await fetch('http://localhost:5005/api/payments/wallet', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -98,7 +98,7 @@ export default function EmployerDashboard() {
   const fetchNotifications = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/admin/stats', { // Or notifications endpoint
+      const res = await fetch('http://localhost:5005/api/admin/stats', { // Or notifications endpoint
         headers: { 'Authorization': `Bearer ${token}` }
       });
       // Just mock notifications list if backend endpoint is generic
@@ -138,21 +138,21 @@ export default function EmployerDashboard() {
     if (!token) return;
     try {
       // 1. Fetch applications
-      const appRes = await fetch(`http://localhost:5000/api/jobs/${jobId}/applications`, {
+      const appRes = await fetch(`http://localhost:5005/api/jobs/${jobId}/applications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const appData = await appRes.json();
       setApplications(Array.isArray(appData) ? appData : []);
 
       // 2. Fetch matched workers
-      const matchRes = await fetch(`http://localhost:5000/api/jobs/${jobId}/match`, {
+      const matchRes = await fetch(`http://localhost:5005/api/jobs/${jobId}/match`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const matchData = await matchRes.json();
       setMatches(Array.isArray(matchData) ? matchData : []);
 
       // 3. Fetch attendance
-      const attRes = await fetch(`http://localhost:5000/api/attendance/job/${jobId}`, {
+      const attRes = await fetch(`http://localhost:5005/api/attendance/job/${jobId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const attData = await attRes.json();
@@ -166,7 +166,7 @@ export default function EmployerDashboard() {
   const handleUpdateApplication = async (appId: string, status: 'accepted' | 'rejected') => {
     if (!token || !selectedJob) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/applications/${appId}`, {
+      const res = await fetch(`http://localhost:5005/api/jobs/applications/${appId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ export default function EmployerDashboard() {
       const lat = 19.076 + (Math.random() * 0.1 - 0.05);
       const lng = 72.877 + (Math.random() * 0.1 - 0.05);
 
-      const res = await fetch('http://localhost:5000/api/jobs/create', {
+      const res = await fetch('http://localhost:5005/api/jobs/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ export default function EmployerDashboard() {
     if (!token || !checkoutData) return;
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/payments/checkout', {
+      const res = await fetch('http://localhost:5005/api/payments/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ export default function EmployerDashboard() {
   const handleDownloadInvoice = async (paymentId: string) => {
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/payments/invoice/${paymentId}`, {
+      const res = await fetch(`http://localhost:5005/api/payments/invoice/${paymentId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const blob = await res.blob();
@@ -320,7 +320,7 @@ export default function EmployerDashboard() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch('http://localhost:5005/api/users/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -890,7 +890,7 @@ export default function EmployerDashboard() {
                   onClick={async () => {
                     if (token) {
                       // Add mock funds
-                      await fetch('http://localhost:5000/api/users/profile', {
+                      await fetch('http://localhost:5005/api/users/profile', {
                         method: 'PUT',
                         headers: {
                           'Content-Type': 'application/json',
@@ -1102,7 +1102,7 @@ function WorkerPayRow({ workerId, onPay }: { workerId: string; onPay: (worker: a
 
   useEffect(() => {
     // Fetch profile details
-    fetch(`http://localhost:5000/api/users/workers?search=`) // Simply get details of this worker
+    fetch(`http://localhost:5005/api/users/workers?search=`) // Simply get details of this worker
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {

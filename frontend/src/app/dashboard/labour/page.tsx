@@ -51,7 +51,7 @@ export default function LabourDashboard() {
   const fetchRecommendations = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/jobs/recommendations', {
+      const res = await fetch('http://localhost:5005/api/jobs/recommendations', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -68,14 +68,14 @@ export default function LabourDashboard() {
     try {
       // Fetch all jobs, then filter where application exists for this user
       // In a real app, write an applications endpoint. Let's filter on the client or mock it cleanly.
-      const res = await fetch('http://localhost:5000/api/jobs', {
+      const res = await fetch('http://localhost:5005/api/jobs', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const allJobs = await res.json();
       if (Array.isArray(allJobs)) {
         const matching: any[] = [];
         for (const j of allJobs) {
-          const appRes = await fetch(`http://localhost:5000/api/jobs/${j._id}/applications`, {
+          const appRes = await fetch(`http://localhost:5005/api/jobs/${j._id}/applications`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const appList = await appRes.json();
@@ -96,7 +96,7 @@ export default function LabourDashboard() {
   const fetchWallet = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/payments/wallet', {
+      const res = await fetch('http://localhost:5005/api/payments/wallet', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -112,7 +112,7 @@ export default function LabourDashboard() {
     // Check if hired in any job that is currently 'in-progress'
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/jobs', {
+      const res = await fetch('http://localhost:5005/api/jobs', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const allJobs = await res.json();
@@ -122,7 +122,7 @@ export default function LabourDashboard() {
 
         if (activeJob) {
           // Check if checked in today
-          const attRes = await fetch(`http://localhost:5000/api/attendance/job/${activeJob._id}`, {
+          const attRes = await fetch(`http://localhost:5005/api/attendance/job/${activeJob._id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const list = await attRes.json();
@@ -162,7 +162,7 @@ export default function LabourDashboard() {
     if (!selectedFeedJob || !token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/${selectedFeedJob._id}/apply`, {
+      const res = await fetch(`http://localhost:5005/api/jobs/${selectedFeedJob._id}/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export default function LabourDashboard() {
 
     try {
       if (!isCheckedIn) {
-        const res = await fetch('http://localhost:5000/api/attendance/check-in', {
+        const res = await fetch('http://localhost:5005/api/attendance/check-in', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ export default function LabourDashboard() {
         if (data.error) throw new Error(data.error);
         setIsCheckedIn(true);
       } else {
-        const res = await fetch('http://localhost:5000/api/attendance/check-out', {
+        const res = await fetch('http://localhost:5005/api/attendance/check-out', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ export default function LabourDashboard() {
 
     try {
       // Mock withdrawal API update
-      await fetch('http://localhost:5000/api/users/profile', { // In real app, put a wallet transaction endpoint
+      await fetch('http://localhost:5005/api/users/profile', { // In real app, put a wallet transaction endpoint
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -259,7 +259,7 @@ export default function LabourDashboard() {
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch('http://localhost:5005/api/users/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

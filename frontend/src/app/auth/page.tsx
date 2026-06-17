@@ -29,6 +29,7 @@ function AuthForm() {
   const [mobileNumber, setMobileNumber] = useState('');
   const [otpCode, setOtpCode] = useState('');
   const [otpCountdown, setOtpCountdown] = useState(30);
+  const [devOtp, setDevOtp] = useState('');
 
   // Form Fields
   const [email, setEmail] = useState('');
@@ -78,13 +79,35 @@ function AuthForm() {
     }, 1000);
   };
 
+  const handleResendOtp = async () => {
+    try {
+      setError('');
+      const otpRes = await fetch('http://localhost:5005/api/auth/resend-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: mobileNumber })
+      });
+      const otpData = await otpRes.json();
+      if (otpData.error) throw new Error(otpData.error);
+      
+      if (otpData.devMode) {
+        setDevOtp(otpData.otp);
+      } else {
+        setDevOtp('');
+      }
+      startOtpCountdown();
+    } catch (err: any) {
+      setError(err.message || 'Failed to resend verification code.');
+    }
+  };
+
   const handleGoogleLoginMock = () => {
     setLoading(true);
     setError('');
     setTimeout(async () => {
       try {
         // Send a request to register/login a mock Google user
-        const res = await fetch('http://localhost:5000/api/auth/register', {
+        const res = await fetch('http://localhost:5005/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -99,7 +122,7 @@ function AuthForm() {
         const data = await res.json();
         if (data.error) {
           // If already registered, perform login instead
-          const loginRes = await fetch('http://localhost:5000/api/auth/login', {
+          const loginRes = await fetch('http://localhost:5005/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -137,7 +160,7 @@ function AuthForm() {
 
     try {
       if (mode === 'login') {
-        const res = await fetch('http://localhost:5000/api/auth/login', {
+        const res = await fetch('http://localhost:5005/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -157,6 +180,21 @@ function AuthForm() {
           setLoading(false);
           return;
         }
+
+        const otpRes = await fetch('http://localhost:5005/api/auth/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobile: mobileNumber })
+        });
+        const otpData = await otpRes.json();
+        if (otpData.error) throw new Error(otpData.error);
+        
+        if (otpData.devMode) {
+          setDevOtp(otpData.otp);
+        } else {
+          setDevOtp('');
+        }
+
         setOtpModalOpen(true);
         startOtpCountdown();
         setLoading(false);
@@ -173,9 +211,16 @@ function AuthForm() {
       return;
     }
     setLoading(true);
-    setOtpModalOpen(false);
 
     try {
+      const verifyRes = await fetch('http://localhost:5005/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: mobileNumber, code: otpCode })
+      });
+      const verifyData = await verifyRes.json();
+      if (verifyData.error) throw new Error(verifyData.error);
+
       const payload: any = {
         name,
         email,
@@ -195,7 +240,7 @@ function AuthForm() {
         payload.languages = languagesList;
       }
 
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch('http://localhost:5005/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -204,6 +249,7 @@ function AuthForm() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
 
+      setOtpModalOpen(false);
       dispatch(setCredentials(data));
       setSuccessMsg('Registration completed successfully!');
       setTimeout(() => {
@@ -488,6 +534,12 @@ function AuthForm() {
               </p>
 
               <div className="space-y-4">
+                {devOtp && (
+                  <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-600 font-semibold text-center leading-normal">
+                    🔧 Verification SMS Code: <span className="text-sm font-mono underline select-all font-bold">{devOtp}</span>
+                  </div>
+                )}
+
                 <input
                   type="text"
                   maxLength={4}
@@ -503,7 +555,7 @@ function AuthForm() {
                   ) : (
                     <button 
                       type="button" 
-                      onClick={startOtpCountdown}
+                      onClick={handleResendOtp}
                       className="text-indigo-400 hover:underline cursor-pointer"
                     >
                       Resend Code

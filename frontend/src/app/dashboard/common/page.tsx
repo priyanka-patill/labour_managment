@@ -61,7 +61,7 @@ export default function CommonUserDashboard() {
 
   const fetchWorkers = async () => {
     try {
-      const url = `http://localhost:5000/api/users/workers?category=${searchCategory}&rating=${filterRating}&search=${searchQuery}`;
+      const url = `http://localhost:5005/api/users/workers?category=${searchCategory}&rating=${filterRating}&search=${searchQuery}`;
       const res = await fetch(url);
       const data = await res.json();
       if (Array.isArray(data)) {
@@ -76,7 +76,7 @@ export default function CommonUserDashboard() {
     if (!token) return;
     try {
       // Common users check jobs created by them
-      const res = await fetch(`http://localhost:5000/api/jobs?employerId=${user?._id}`, {
+      const res = await fetch(`http://localhost:5005/api/jobs?employerId=${user?._id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -91,7 +91,7 @@ export default function CommonUserDashboard() {
   const fetchWallet = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/payments/wallet', {
+      const res = await fetch('http://localhost:5005/api/payments/wallet', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -128,7 +128,7 @@ export default function CommonUserDashboard() {
     setSelectedRequest(req);
     if (!token) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/${req._id}/applications`, {
+      const res = await fetch(`http://localhost:5005/api/jobs/${req._id}/applications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -142,7 +142,7 @@ export default function CommonUserDashboard() {
   const handleUpdateBid = async (appId: string, status: 'accepted' | 'rejected') => {
     if (!token || !selectedRequest) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/applications/${appId}`, {
+      const res = await fetch(`http://localhost:5005/api/jobs/applications/${appId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ export default function CommonUserDashboard() {
       const lat = 19.076 + (Math.random() * 0.1 - 0.05);
       const lng = 72.877 + (Math.random() * 0.1 - 0.05);
 
-      const res = await fetch('http://localhost:5000/api/jobs/create', {
+      const res = await fetch('http://localhost:5005/api/jobs/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ export default function CommonUserDashboard() {
   const handleContactWorker = async (workerId: string) => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/chats', {
+      const res = await fetch('http://localhost:5005/api/chats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -263,7 +263,7 @@ export default function CommonUserDashboard() {
       const lat = 19.076 + (Math.random() * 0.04 - 0.02);
       const lng = 72.877 + (Math.random() * 0.04 - 0.02);
 
-      const jobRes = await fetch('http://localhost:5000/api/jobs/create', {
+      const jobRes = await fetch('http://localhost:5005/api/jobs/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -289,7 +289,7 @@ export default function CommonUserDashboard() {
       if (newJob.error) throw new Error(newJob.error);
 
       // 2. Submit application on behalf of worker
-      const applyRes = await fetch(`http://localhost:5000/api/jobs/${newJob._id}/apply`, {
+      const applyRes = await fetch(`http://localhost:5005/api/jobs/${newJob._id}/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ export default function CommonUserDashboard() {
       });
       // In a mock demo, we just auto-accept:
       // Let's get the application created
-      const appsRes = await fetch(`http://localhost:5000/api/jobs/${newJob._id}/applications`, {
+      const appsRes = await fetch(`http://localhost:5005/api/jobs/${newJob._id}/applications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const apps = await appsRes.json();
@@ -327,7 +327,7 @@ export default function CommonUserDashboard() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch('http://localhost:5005/api/users/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -783,7 +783,7 @@ export default function CommonUserDashboard() {
                 <button
                   onClick={async () => {
                     if (token) {
-                      await fetch('http://localhost:5000/api/users/profile', {
+                      await fetch('http://localhost:5005/api/users/profile', {
                         method: 'PUT',
                         headers: {
                           'Content-Type': 'application/json',

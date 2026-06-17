@@ -176,10 +176,124 @@ export async function getWorkers(req: Request, res: Response) {
   }
 }
 
+const activeOtps = new Map<string, { code: string; expires: number }>();
+
+function normalizePhoneNumber(mobile: string): string {
+  let clean = mobile.replace(/\D/g, '');
+  if (clean.length === 10) {
+    return `+91${clean}`;
+  }
+  if (clean.length > 10 && !mobile.startsWith('+')) {
+    return `+${clean}`;
+  }
+  return mobile.startsWith('+') ? mobile : `+${mobile}`;
+}
+
+async function sendSms(to: string, message: string): Promise<boolean> {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const fromNum = process.env.TWILIO_FROM_NUMBER;
+  const formattedTo = normalizePhoneNumber(to);
+
+  if (accountSid && authToken && fromNum) {
+    try {
+      const twilio = require('twilio');
+      const client = twilio(accountSid, authToken);
+      await client.messages.create({
+        body: message,
+        from: fromNum,
+        to: formattedTo
+      });
+      console.log(`[SMS TWILIO] Successfully sent message to ${formattedTo}`);
+      return true;
+    } catch (error) {
+      console.error('[SMS TWILIO ERROR] Failed to send Twilio SMS:', error);
+    }
+  }
+
+  // Fallback to Textbelt for actual sending when Twilio is not configured or fails
+  console.log(`[SMS FALLBACK] Attempting to send SMS via Textbelt to ${formattedTo}...`);
+  try {
+    const response = await fetch('https://textbelt.com/text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        phone: formattedTo,
+        message: message,
+        key: 'textbelt'
+      })
+    });
+    const data: any = await response.json();
+    if (data && data.success) {
+      console.log(`[SMS TEXTBELT] Successfully sent message to ${formattedTo}. Quota remaining: ${data.quotaRemaining}`);
+      return true;
+    } else {
+      console.error('[SMS TEXTBELT ERROR] Failed to send Textbelt SMS:', data);
+    }
+  } catch (error) {
+    console.error('[SMS TEXTBELT ERROR] Error calling Textbelt API:', error);
+  }
+
+  console.log(`[SMS MOCK] Twilio and Textbelt failed/not configured. Message to ${formattedTo}: ${message}`);
+  return false;
+}
+
+export async function sendOtp(req: Request, res: Response) {
+  try {
+    const { mobile } = req.body;
+    if (!mobile) {
+      return res.status(400).json({ error: 'Mobile number is required' });
+    }
+
+    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    activeOtps.set(mobile, { code, expires: Date.now() + 5 * 60 * 1000 });
+
+    const message = `Your Shramik verification code is: ${code}. Please do not share it with anyone.`;
+    const sentViaTwilio = await sendSms(mobile, message);
+
+    console.log('\n=========================================');
+    console.log(`[SMS GATEWAY] Verification Code for ${mobile}: ${code} (Twilio Sent: ${sentViaTwilio})`);
+    console.log('=========================================\n');
+
+    return res.status(200).json({
+      message: 'Verification code sent successfully.',
+      otp: code,
+      devMode: !sentViaTwilio
+    });
+  } catch (error: any) {
+    console.error('Error sending OTP:', error);
+    return res.status(500).json({ error: error.message || 'Failed to send OTP' });
+  }
+}
+
 export async function verifyOtp(req: Request, res: Response) {
-  return res.status(200).json({ message: 'OTP verified successfully' });
+  try {
+    const { mobile, code } = req.body;
+    if (!mobile || !code) {
+      return res.status(400).json({ error: 'Mobile number and verification code are required' });
+    }
+
+    const savedOtp = activeOtps.get(mobile);
+    if (!savedOtp) {
+      return res.status(400).json({ error: 'Verification code expired or not requested' });
+    }
+
+    if (savedOtp.expires < Date.now()) {
+      activeOtps.delete(mobile);
+      return res.status(400).json({ error: 'Verification code expired' });
+    }
+
+    if (savedOtp.code !== code) {
+      return res.status(400).json({ error: 'Invalid verification code' });
+    }
+
+    activeOtps.delete(mobile);
+    return res.status(200).json({ success: true, message: 'OTP verified successfully' });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || 'Verification failed' });
+  }
 }
 
 export async function resendOtp(req: Request, res: Response) {
-  return res.status(200).json({ message: 'OTP resent successfully' });
+  return sendOtp(req, res);
 }
