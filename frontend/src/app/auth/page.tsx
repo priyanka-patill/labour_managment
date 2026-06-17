@@ -301,7 +301,7 @@ function AuthForm() {
               <label className="text-[11px] font-semibold text-zinc-400">Full Name</label>
               <input
                 type="text"
-                placeholder="e.g. Ramesh Kumar"
+                placeholder="Enter your full name"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
@@ -325,7 +325,7 @@ function AuthForm() {
               <label className="text-[11px] font-semibold text-zinc-400">Mobile Number (For Verification)</label>
               <input
                 type="tel"
-                placeholder="e.g. 9876543210"
+                placeholder="Enter 10-digit mobile number"
                 value={mobileNumber}
                 onChange={e => setMobileNumber(e.target.value)}
                 className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
@@ -349,7 +349,7 @@ function AuthForm() {
               <label className="text-[11px] font-semibold text-zinc-400">City / Address</label>
               <input
                 type="text"
-                placeholder="e.g. Kurla East, Mumbai"
+                placeholder="Enter city or address"
                 value={address}
                 onChange={e => setAddress(e.target.value)}
                 className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
@@ -364,7 +364,7 @@ function AuthForm() {
                 <label className="text-[11px] font-semibold text-zinc-400">Company / Business Name</label>
                 <input
                   type="text"
-                  placeholder="e.g. Kulkarni Projects Ltd"
+                  placeholder="Enter company or business name"
                   value={companyName}
                   onChange={e => setCompanyName(e.target.value)}
                   className="w-full bg-zinc-900/60 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
@@ -373,7 +373,7 @@ function AuthForm() {
               <div className="space-y-1">
                 <label className="text-[11px] font-semibold text-zinc-400">Business Details (Industry)</label>
                 <textarea
-                  placeholder="e.g. Commercial building contractor specializing in brickwork and interiors."
+                  placeholder="Describe your business or industry (e.g. services offered, specialization)"
                   value={businessDetails}
                   onChange={e => setBusinessDetails(e.target.value)}
                   rows={2}
@@ -491,7 +491,7 @@ function AuthForm() {
                 <input
                   type="text"
                   maxLength={4}
-                  placeholder="Enter 4-Digit Code (e.g. 1234)"
+                  placeholder="Enter 4-digit verification code"
                   value={otpCode}
                   onChange={e => setOtpCode(e.target.value)}
                   className="w-full text-center bg-zinc-950/60 border border-zinc-800 rounded-lg py-3 text-lg font-mono text-zinc-50 placeholder-zinc-700 tracking-[10px] focus:outline-none focus:border-indigo-500"

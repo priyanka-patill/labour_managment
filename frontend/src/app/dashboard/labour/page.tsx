@@ -735,11 +735,11 @@ export default function LabourDashboard() {
                       <label className="text-[11px] font-semibold text-zinc-400">Cover Note (Introduce your skills)</label>
                       <textarea
                         required
-                        placeholder="e.g. Hi, I have 5 years experience in house wiring. I can start tomorrow."
+                        placeholder="Write your cover letter or introduction of your skills here..."
                         value={coverLetter}
                         onChange={e => setCoverLetter(e.target.value)}
                         rows={4}
-                        className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                        className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                       />
                     </div>
 

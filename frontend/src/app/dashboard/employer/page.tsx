@@ -493,10 +493,10 @@ export default function EmployerDashboard() {
                   <label className="text-[11px] font-semibold text-zinc-400">Job Title</label>
                   <input
                     type="text"
-                    placeholder="e.g. Electric wiring for building"
+                    placeholder="Enter job title"
                     value={postTitle}
                     onChange={e => setPostTitle(e.target.value)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -504,7 +504,7 @@ export default function EmployerDashboard() {
                   <select
                     value={postCategory}
                     onChange={e => setPostCategory(e.target.value)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   >
                     <option value="electrician">Electrician</option>
                     <option value="plumber">Plumber</option>
@@ -525,10 +525,10 @@ export default function EmployerDashboard() {
                   <label className="text-[11px] font-semibold text-zinc-400">Wage Budget Amount (Rs)</label>
                   <input
                     type="number"
-                    placeholder="e.g. 800"
+                    placeholder="Enter budget wage amount"
                     value={postBudget}
                     onChange={e => setPostBudget(e.target.value)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -536,7 +536,7 @@ export default function EmployerDashboard() {
                   <select
                     value={postWageType}
                     onChange={e => setPostWageType(e.target.value as any)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   >
                     <option value="daily">Daily Wage</option>
                     <option value="weekly">Weekly Wage</option>
@@ -550,10 +550,10 @@ export default function EmployerDashboard() {
                   <label className="text-[11px] font-semibold text-zinc-400">Duration</label>
                   <input
                     type="text"
-                    placeholder="e.g. 5 days"
+                    placeholder="Enter project duration"
                     value={postDuration}
                     onChange={e => setPostDuration(e.target.value)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -562,7 +562,7 @@ export default function EmployerDashboard() {
                     type="number"
                     value={postHours}
                     onChange={e => setPostHours(Number(e.target.value))}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -571,7 +571,7 @@ export default function EmployerDashboard() {
                     type="number"
                     value={postWorkers}
                     onChange={e => setPostWorkers(Number(e.target.value))}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
               </div>
@@ -583,7 +583,7 @@ export default function EmployerDashboard() {
                     type="number"
                     value={postExp}
                     onChange={e => setPostExp(Number(e.target.value))}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
                 <div className="space-y-1">
@@ -591,7 +591,7 @@ export default function EmployerDashboard() {
                   <select
                     value={postUrgency}
                     onChange={e => setPostUrgency(e.target.value as any)}
-                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                   >
                     <option value="low">Low Urgency</option>
                     <option value="medium">Medium Urgency</option>
@@ -604,10 +604,10 @@ export default function EmployerDashboard() {
                 <label className="text-[11px] font-semibold text-zinc-400">Project Location (Site Address)</label>
                 <input
                   type="text"
-                  placeholder="e.g. Kanjurmarg West, Mumbai"
+                  placeholder="Enter work location address"
                   value={postAddress}
                   onChange={e => setPostAddress(e.target.value)}
-                  className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -618,7 +618,7 @@ export default function EmployerDashboard() {
                   value={postDesc}
                   onChange={e => setPostDesc(e.target.value)}
                   rows={3}
-                  className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 

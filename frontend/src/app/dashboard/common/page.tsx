@@ -682,10 +682,10 @@ export default function CommonUserDashboard() {
                           <label className="text-[11px] font-semibold text-zinc-400">Task Title</label>
                           <input
                             type="text"
-                            placeholder="e.g. Geyser leaking in washroom"
+                            placeholder="Describe the issue briefly (e.g. geyser leak)"
                             value={reqTitle}
                             onChange={e => setReqTitle(e.target.value)}
-                            className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white"
+                            className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50"
                           />
                         </div>
                         <div className="space-y-1">
@@ -693,7 +693,7 @@ export default function CommonUserDashboard() {
                           <select
                             value={reqCategory}
                             onChange={e => setReqCategory(e.target.value)}
-                            className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white"
+                            className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50"
                           >
                             <option value="electrician">Electrician</option>
                             <option value="plumber">Plumber</option>
@@ -712,10 +712,10 @@ export default function CommonUserDashboard() {
                         <label className="text-[11px] font-semibold text-zinc-400">Willing to Pay (Rs. Fixed Cost)</label>
                         <input
                           type="number"
-                          placeholder="e.g. 500"
+                          placeholder="Enter estimated budget amount"
                           value={reqBudget}
                           onChange={e => setReqBudget(e.target.value)}
-                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white"
+                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50"
                         />
                       </div>
 
@@ -723,10 +723,10 @@ export default function CommonUserDashboard() {
                         <label className="text-[11px] font-semibold text-zinc-400">Home Address</label>
                         <input
                           type="text"
-                          placeholder="e.g. Bandra West, Mumbai"
+                          placeholder="Enter your home address"
                           value={reqAddress}
                           onChange={e => setReqAddress(e.target.value)}
-                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-white"
+                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2 px-3 text-xs text-zinc-50"
                         />
                       </div>
 
@@ -737,7 +737,7 @@ export default function CommonUserDashboard() {
                           value={reqDesc}
                           onChange={e => setReqDesc(e.target.value)}
                           rows={3}
-                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3 text-xs text-white focus:outline-none focus:border-indigo-500"
+                          className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3 text-xs text-zinc-50 focus:outline-none focus:border-indigo-500"
                         />
                       </div>
 
@@ -918,7 +918,7 @@ export default function CommonUserDashboard() {
                         value={hireDesc}
                         onChange={e => setHireDesc(e.target.value)}
                         rows={3}
-                        className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-white focus:outline-none"
+                        className="w-full bg-zinc-950/40 border border-zinc-800 rounded-lg py-2.5 px-3.5 text-xs text-zinc-50 focus:outline-none"
                       />
                     </div>
 
