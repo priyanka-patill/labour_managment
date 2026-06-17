@@ -23,13 +23,7 @@ function AuthForm() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // OTP Verification modal state
-  const [otpModalOpen, setOtpModalOpen] = useState(false);
   const [mobileNumber, setMobileNumber] = useState('');
-  const [otpCode, setOtpCode] = useState('');
-  const [otpCountdown, setOtpCountdown] = useState(30);
-  const [devOtp, setDevOtp] = useState('');
 
   // Form Fields
   const [email, setEmail] = useState('');
@@ -64,41 +58,6 @@ function AuthForm() {
     setLanguagesList(prev => 
       prev.includes(lang) ? prev.filter(l => l !== lang) : [...prev, lang]
     );
-  };
-
-  const startOtpCountdown = () => {
-    setOtpCountdown(30);
-    const timer = setInterval(() => {
-      setOtpCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
-
-  const handleResendOtp = async () => {
-    try {
-      setError('');
-      const otpRes = await fetch('http://localhost:5005/api/auth/resend-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile: mobileNumber })
-      });
-      const otpData = await otpRes.json();
-      if (otpData.error) throw new Error(otpData.error);
-      
-      if (otpData.devMode) {
-        setDevOtp(otpData.otp);
-      } else {
-        setDevOtp('');
-      }
-      startOtpCountdown();
-    } catch (err: any) {
-      setError(err.message || 'Failed to resend verification code.');
-    }
   };
 
   const handleGoogleLoginMock = () => {
@@ -174,89 +133,42 @@ function AuthForm() {
           router.push(`/dashboard/${data.user.role}`);
         }, 800);
       } else {
-        // Registration mode requires OTP verification first
-        if (!mobileNumber) {
-          setError('Mobile number is required for verification.');
-          setLoading(false);
-          return;
+        const payload: any = {
+          name,
+          email,
+          password,
+          role,
+          mobile: mobileNumber || '',
+          address
+        };
+
+        if (role === 'employer') {
+          payload.companyName = companyName;
+          payload.businessDetails = businessDetails;
+        } else if (role === 'labour') {
+          payload.skills = skills;
+          payload.expectedWage = Number(expectedWage);
+          payload.experience = Number(experience);
+          payload.languages = languagesList;
         }
 
-        const otpRes = await fetch('http://localhost:5005/api/auth/send-otp', {
+        const res = await fetch('http://localhost:5005/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mobile: mobileNumber })
+          body: JSON.stringify(payload)
         });
-        const otpData = await otpRes.json();
-        if (otpData.error) throw new Error(otpData.error);
-        
-        if (otpData.devMode) {
-          setDevOtp(otpData.otp);
-        } else {
-          setDevOtp('');
-        }
 
-        setOtpModalOpen(true);
-        startOtpCountdown();
-        setLoading(false);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        dispatch(setCredentials(data));
+        setSuccessMsg('Registration completed successfully!');
+        setTimeout(() => {
+          router.push(`/dashboard/${data.user.role}`);
+        }, 1000);
       }
     } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please try again.');
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtpSubmit = async () => {
-    if (!otpCode || otpCode.length < 4) {
-      setError('Please enter a valid OTP code.');
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const verifyRes = await fetch('http://localhost:5005/api/auth/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobile: mobileNumber, code: otpCode })
-      });
-      const verifyData = await verifyRes.json();
-      if (verifyData.error) throw new Error(verifyData.error);
-
-      const payload: any = {
-        name,
-        email,
-        password,
-        role,
-        mobile: mobileNumber,
-        address
-      };
-
-      if (role === 'employer') {
-        payload.companyName = companyName;
-        payload.businessDetails = businessDetails;
-      } else if (role === 'labour') {
-        payload.skills = skills;
-        payload.expectedWage = Number(expectedWage);
-        payload.experience = Number(experience);
-        payload.languages = languagesList;
-      }
-
-      const res = await fetch('http://localhost:5005/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-
-      setOtpModalOpen(false);
-      dispatch(setCredentials(data));
-      setSuccessMsg('Registration completed successfully!');
-      setTimeout(() => {
-        router.push(`/dashboard/${data.user.role}`);
-      }, 1000);
-    } catch (err: any) {
-      setError(err.message || 'Registration failed.');
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -497,7 +409,7 @@ function AuthForm() {
             ) : mode === 'login' ? (
               'Sign In'
             ) : (
-              'Request OTP Code'
+              'Register & Sign Up'
             )}
           </button>
         </form>
@@ -516,68 +428,6 @@ function AuthForm() {
           <span>Quick Google Login (Simulated)</span>
         </button>
       </div>
-
-      {/* OTP verification dialog modal overlay */}
-      <AnimatePresence>
-        {otpModalOpen && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm glass-panel p-6 rounded-2xl border border-zinc-800 text-center"
-            >
-              <Shield className="text-indigo-400 mx-auto mb-4" size={36} />
-              <h3 className="text-lg font-bold text-zinc-50 mb-2">Verification Code Required</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed mb-6">
-                We sent a 4-digit verification code to <strong className="text-zinc-50">{mobileNumber}</strong>.
-              </p>
-
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  maxLength={4}
-                  placeholder="Enter 4-digit verification code"
-                  value={otpCode}
-                  onChange={e => setOtpCode(e.target.value)}
-                  className="w-full text-center bg-zinc-950/60 border border-zinc-800 rounded-lg py-3 text-lg font-mono text-zinc-50 placeholder-zinc-700 tracking-[10px] focus:outline-none focus:border-indigo-500"
-                />
-
-                <div className="flex justify-between items-center text-[10px]">
-                  {otpCountdown > 0 ? (
-                    <span className="text-zinc-500">Resend code in {otpCountdown}s</span>
-                  ) : (
-                    <button 
-                      type="button" 
-                      onClick={handleResendOtp}
-                      className="text-indigo-400 hover:underline cursor-pointer"
-                    >
-                      Resend Code
-                    </button>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setOtpModalOpen(false)}
-                    className="w-full py-2.5 rounded-lg border border-zinc-800 text-zinc-400 text-xs font-semibold hover:bg-zinc-900/40 cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleVerifyOtpSubmit}
-                    className="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold cursor-pointer"
-                  >
-                    Verify & Sign Up
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
